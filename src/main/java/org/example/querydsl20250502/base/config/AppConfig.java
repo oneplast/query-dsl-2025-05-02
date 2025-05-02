@@ -1,4 +1,4 @@
-package org.example.querydsl20250502.user.base.config;
+package org.example.querydsl20250502.base.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
