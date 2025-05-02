@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: query-dsl-2025-05-02
+
+  datasource:
+    url: jdbc:h2:mem:db_test;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      dialect: org.hibernate.dialect.H2Dialect
+      default_batch_fetch_size: 100
+      format_sql: true
+      highlight_sql: true
+      use_sql_comments: true
