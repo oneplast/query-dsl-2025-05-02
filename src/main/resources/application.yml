@@ -3,8 +3,8 @@ spring:
     name: query-dsl-2025-05-02
 
   datasource:
-    url: jdbc:h2:mem:db_test;MODE=MySQL
-    driver-class-name: org.h2.Driver
+    url: jdbc:h2:./db_dev;MODE=MySQL
+    driverClassName: org.h2.Driver
     username: sa
     password: ""
 
