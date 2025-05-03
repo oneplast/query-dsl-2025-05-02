@@ -3,6 +3,7 @@ package org.example.querydsl20250502.user.repository;
 import static org.example.querydsl20250502.user.entity.QSiteUser.siteUser;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.querydsl20250502.user.entity.SiteUser;
 
@@ -40,5 +41,14 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                 .orderBy(siteUser.id.asc())
                 .limit(1)
                 .fetchOne();
+    }
+
+    @Override
+    public List<SiteUser> getQslUsersOrderByIdAscOne() {
+        return jpaQueryFactory
+                .select(siteUser)
+                .from(siteUser)
+                .orderBy(siteUser.id.asc())
+                .fetch();
     }
 }

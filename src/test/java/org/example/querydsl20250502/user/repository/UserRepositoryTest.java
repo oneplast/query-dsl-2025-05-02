@@ -3,6 +3,7 @@ package org.example.querydsl20250502.user.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
+import java.util.List;
 import org.example.querydsl20250502.user.entity.SiteUser;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -70,10 +71,30 @@ class UserRepositoryTest {
     @DisplayName("가장 오래된 회원 1명")
     void t5() {
         SiteUser u1 = userRepository.getQslUserOrderByIdAscOne();
-        
+
         assertThat(u1.getId()).isEqualTo(1L);
         assertThat(u1.getUsername()).isEqualTo("user1");
         assertThat(u1.getEmail()).isEqualTo("user1@test.com");
         assertThat(u1.getPassword()).isEqualTo("{noop}1234");
+    }
+
+    @Test
+    @DisplayName("전체회원, 오래된 순")
+    void t6() {
+        List<SiteUser> users = userRepository.getQslUsersOrderByIdAscOne();
+
+        SiteUser u1 = users.get(0);
+
+        assertThat(u1.getId()).isEqualTo(1L);
+        assertThat(u1.getUsername()).isEqualTo("user1");
+        assertThat(u1.getEmail()).isEqualTo("user1@test.com");
+        assertThat(u1.getPassword()).isEqualTo("{noop}1234");
+
+        SiteUser u2 = users.get(1);
+
+        assertThat(u2.getId()).isEqualTo(2L);
+        assertThat(u2.getUsername()).isEqualTo("user2");
+        assertThat(u2.getEmail()).isEqualTo("user2@test.com");
+        assertThat(u2.getPassword()).isEqualTo("{noop}1234");
     }
 }
