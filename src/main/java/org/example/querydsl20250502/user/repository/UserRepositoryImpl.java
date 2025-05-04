@@ -2,10 +2,18 @@ package org.example.querydsl20250502.user.repository;
 
 import static org.example.querydsl20250502.user.entity.QSiteUser.siteUser;
 
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.PathBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.querydsl20250502.user.entity.SiteUser;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.support.PageableExecutionUtils;
 
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepositoryCustom {
@@ -63,5 +71,36 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                 )
                 .orderBy(siteUser.id.desc())
                 .fetch();
+    }
+
+    @Override
+    public Page<SiteUser> searchQsl(String kw, Pageable pageable) {
+        JPAQuery<SiteUser> usersQuery = jpaQueryFactory
+                .select(siteUser)
+                .from(siteUser)
+                .where(
+                        siteUser.username.contains(kw)
+                                .or(siteUser.email.contains(kw))
+                )
+                .offset(pageable.getOffset())   // 몇 개를 건너뛰어야 하는지 LIMIT {1}, ?
+                .limit(pageable.getPageSize());  // 한 페이지에 몇 개가 보여야 하는지 LIMIT ?, {1}
+
+        for (Sort.Order o : pageable.getSort()) {
+            PathBuilder pathBuilder = new PathBuilder(siteUser.getType(), siteUser.getMetadata());
+            usersQuery.orderBy(
+                    new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC, pathBuilder.get(o.getProperty())));
+        }
+
+        List<SiteUser> users = usersQuery.fetch();
+
+        JPAQuery<Long> usersCountQuery = jpaQueryFactory
+                .select(siteUser.count())
+                .from(siteUser)
+                .where(
+                        siteUser.username.contains(kw)
+                                .or(siteUser.email.contains(kw))
+                );
+
+        return PageableExecutionUtils.getPage(users, pageable, usersCountQuery::fetchOne);
     }
 }
