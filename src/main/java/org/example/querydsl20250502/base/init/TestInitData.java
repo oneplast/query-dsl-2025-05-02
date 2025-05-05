@@ -1,7 +1,6 @@
 package org.example.querydsl20250502.base.init;
 
 import java.util.Arrays;
-import java.util.List;
 import org.example.querydsl20250502.user.entity.SiteUser;
 import org.example.querydsl20250502.user.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -27,7 +26,13 @@ public class TestInitData {
                     .email("user2@test.com")
                     .build();
 
-            List<SiteUser> siteUsers = userRepository.saveAll(Arrays.asList(u1, u2));
+            u1.addInterestKeywordContent("축구");
+            u1.addInterestKeywordContent("농구");
+
+            u2.addInterestKeywordContent("클라이밍");
+            u2.addInterestKeywordContent("마라톤");
+
+            userRepository.saveAll(Arrays.asList(u1, u2));
         };
     }
 }

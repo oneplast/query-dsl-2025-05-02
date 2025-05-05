@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -22,6 +23,8 @@ public class QSiteUser extends EntityPathBase<SiteUser> {
     public final StringPath email = createString("email");
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    public final SetPath<org.example.querydsl20250502.interestKeyword.entity.InterestKeyword, org.example.querydsl20250502.interestKeyword.entity.QInterestKeyword> interestKeywords = this.<org.example.querydsl20250502.interestKeyword.entity.InterestKeyword, org.example.querydsl20250502.interestKeyword.entity.QInterestKeyword>createSet("interestKeywords", org.example.querydsl20250502.interestKeyword.entity.InterestKeyword.class, org.example.querydsl20250502.interestKeyword.entity.QInterestKeyword.class, PathInits.DIRECT2);
 
     public final StringPath password = createString("password");
 
