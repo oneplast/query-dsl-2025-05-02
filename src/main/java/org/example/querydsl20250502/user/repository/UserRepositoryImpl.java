@@ -1,5 +1,6 @@
 package org.example.querydsl20250502.user.repository;
 
+import static org.example.querydsl20250502.interestKeyword.entity.QInterestKeyword.interestKeyword;
 import static org.example.querydsl20250502.user.entity.QSiteUser.siteUser;
 
 import com.querydsl.core.types.Order;
@@ -9,7 +10,6 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.example.querydsl20250502.interestKeyword.entity.QInterestKeyword;
 import org.example.querydsl20250502.user.entity.SiteUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -116,13 +116,11 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
         ON IK.content = SUIK.interest_keywords_content
         WHERE IK.content = "축구";
          */
-        QInterestKeyword IK = new QInterestKeyword("IK");
-
         return jpaQueryFactory
                 .selectFrom(siteUser)
-                .innerJoin(siteUser.interestKeywords, IK)
+                .innerJoin(siteUser.interestKeywords, interestKeyword)
                 .where(
-                        IK.content.eq(keywordContent)
+                        interestKeyword.content.eq(keywordContent)
                 )
                 .fetch();
     }
