@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -47,7 +48,11 @@ public class SiteUser {
         interestKeywords.add(new InterestKeyword(keywordContent));
     }
 
-    public void follow(SiteUser u2) {
-        u2.getFollowers().add(this);
+    public void follow(SiteUser following) {
+        if (this == following || following == null || Objects.equals(following.getId(), this.getId())) {
+            return;
+        }
+
+        following.getFollowers().add(this);
     }
 }
