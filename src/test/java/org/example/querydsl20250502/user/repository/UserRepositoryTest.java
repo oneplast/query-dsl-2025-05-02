@@ -249,4 +249,19 @@ class UserRepositoryTest {
 
         assertThat(u1.getFollowers().size()).isEqualTo(0);
     }
+
+    @Test
+    @DisplayName("특정회원의 follower들과 following들을 모두 알 수 있어야 한다.")
+    void t15() {
+        SiteUser u1 = userRepository.getQslUser(1L);
+        SiteUser u2 = userRepository.getQslUser(2L);
+
+        u1.follow(u2);
+
+        assertThat(u1.getFollowers().size()).isEqualTo(0);
+        assertThat(u1.getFollowings().size()).isEqualTo(1);
+
+        assertThat(u2.getFollowers().size()).isEqualTo(1);
+        assertThat(u2.getFollowings().size()).isEqualTo(0);
+    }
 }
