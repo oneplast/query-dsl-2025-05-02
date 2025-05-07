@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -37,7 +38,7 @@ public class SiteUser {
     private String email;
 
     @Builder.Default
-    @ManyToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<InterestKeyword> interestKeywords = new HashSet<>();
 
     @Builder.Default
@@ -49,7 +50,7 @@ public class SiteUser {
     private Set<SiteUser> followings = new HashSet<>();
 
     public void addInterestKeywordContent(String keywordContent) {
-        interestKeywords.add(new InterestKeyword(keywordContent));
+        interestKeywords.add(new InterestKeyword(this, keywordContent));
     }
 
     public void follow(SiteUser following) {
