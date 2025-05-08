@@ -10,7 +10,6 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.example.querydsl20250502.user.entity.QSiteUser;
 import org.example.querydsl20250502.user.entity.SiteUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -128,15 +127,10 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
     @Override
     public List<String> getKeywordContentsByFollowingsOf(SiteUser user) {
-        QSiteUser siteUser2 = new QSiteUser("siteUser2");
-
         return jpaQueryFactory
-                .select(interestKeyword.content)
-                .distinct()
+                .select(interestKeyword.content).distinct()
                 .from(interestKeyword)
-                .innerJoin(interestKeyword.user, siteUser)
-                .innerJoin(siteUser.followers, siteUser2)
-                .where(siteUser2.id.eq(user.getId()))
+                .where(interestKeyword.user.in(user.getFollowings()))
                 .fetch();
     }
 }
